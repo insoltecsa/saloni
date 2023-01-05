@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<odoo>
+    	<record id="view_users_discount_limit" model="ir.ui.view">
+			<field name="name">view.users.discount</field>
+			<field name="model">res.users</field>
+			<field name="inherit_id" ref="base.view_users_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="/form/sheet/notebook/page[@name='access_rights']" position="after">
+					<page string="Discount Limit">
+						<group name="discount_limit">
+							<group>
+	 						<field name="fixed_limit"/>
+	 						<field name="percent_limit"/>
+	 						</group>
+ 						</group>
+					</page>
+				</xpath>
+			</field>
+		</record>
+
+
+		<record id="view_sale_discount_limit" model="ir.ui.view">
+			<field name="name">view.sale.discount</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='payment_term_id']" position="after">
+					<field name="limit_type" widget="radio" options="{'horizontal': true}"/>
+				</xpath>
+				<xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+					<field name="discount_amt" invisible="1"/>
+				</xpath>
+			</field>
+		</record>
+
+
+		<record id="view_move_form_inherits" model="ir.ui.view">
+			<field name="name">account.move.form.inherit</field>
+			<field name="model">account.move</field>
+			<field name="inherit_id" ref="account.view_move_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//div[@name='journal_div']" position="after">
+					<label name="limit_type" for="limit_type" />
+					<field name="limit_type" widget="radio" options="{'horizontal': true}" nolabel="1"/>
+				</xpath>
+				<xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="after">
+					<field name="limit_type" invisible="1"/>
+					<field name="discount_amt" invisible="1"/>
+				</xpath>
+				<xpath expr="//field[@name='line_ids']/tree/field[@name='price_unit']" position="after">
+					<field name="limit_type" invisible="1"/>
+					<field name="discount_amt" invisible="1"/>
+				</xpath>
+			</field>
+		</record>
+
+</odoo>
